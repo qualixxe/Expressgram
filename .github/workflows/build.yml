@@ -8,7 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-      # ⬇️ ИСПРАВЛЕНО: добавлен submodules: recursive
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -30,6 +29,12 @@ jobs:
         with:
           ndk-version: r27c
           link-to-sdk: true
+
+      # ⬇️ НОВЫЙ ШАГ: Устанавливаем инструменты для компиляции C++ кода
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y meson ninja-build yasm nasm cmake build-essential pkg-config
 
       - name: Build Release APK
         run: |
