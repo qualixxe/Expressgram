@@ -4022,6 +4022,34 @@ public class Theme {
         themes.add(themeInfo);
         themesDict.put("Night", themeInfo);
 
+        themeInfo = new ThemeInfo();
+        themeInfo.name = "Express Light";
+        themeInfo.assetName = "express_light.attheme";
+        themeInfo.previewBackgroundColor = 0xfff5f5f5;
+        themeInfo.previewInColor = 0xffebeef4;
+        themeInfo.previewOutColor = 0xffd81b60;
+        themeInfo.sortIndex = 8;
+        themeInfo.firstAccentIsDefault = true;
+        themeInfo.currentAccentId = DEFALT_THEME_ACCENT_ID;
+        themes.add(themeInfo);
+        themesDict.put("Express Light", themeInfo);
+
+        themeInfo = new ThemeInfo();
+        themeInfo.name = "Express Dark";
+        themeInfo.assetName = "express_dark.attheme";
+        themeInfo.previewBackgroundColor = 0xff242424;
+        themeInfo.previewInColor = 0xff3d3838;
+        themeInfo.previewOutColor = 0xffea538a;
+        themeInfo.sortIndex = 9;
+        themeInfo.firstAccentIsDefault = true;
+        themeInfo.currentAccentId = DEFALT_THEME_ACCENT_ID;
+        themes.add(themeInfo);
+        themesDict.put("Express Dark", themeInfo);
+
+        defaultTheme = themesDict.get("Express Light");
+        currentDayTheme = defaultTheme;
+        currentNightTheme = themesDict.get("Express Dark");
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             themeInfo = new ThemeInfo();
             themeInfo.name = "Monet Light";
@@ -4096,7 +4124,7 @@ public class Theme {
 
             String theme = preferences.getString("theme", null);
             if ("Default".equals(theme)) {
-                applyingTheme = themesDict.get("Blue");
+                applyingTheme = themesDict.get("Express Light");
                 applyingTheme.currentAccentId = DEFALT_THEME_ACCENT_ID;
             } else if ("Dark".equals(theme)) {
                 applyingTheme = themeDarkBlue;
@@ -4112,7 +4140,7 @@ public class Theme {
 
             theme = preferences.getString("nighttheme", null);
             if ("Default".equals(theme)) {
-                applyingTheme = themesDict.get("Blue");
+                applyingTheme = themesDict.get("Express Dark");
                 applyingTheme.currentAccentId = DEFALT_THEME_ACCENT_ID;
             } else if ("Dark".equals(theme)) {
                 currentNightTheme = themeDarkBlue;

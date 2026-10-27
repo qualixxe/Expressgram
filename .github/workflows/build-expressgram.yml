@@ -1,0 +1,57 @@
+name: Build Expressgram
+
+on:
+  push:
+    branches: [ "dev" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools;build-tools;36.0.0;platforms;android-36'
+
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r27c
+          link-to-sdk: true
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y meson ninja-build yasm nasm cmake build-essential pkg-config
+
+      - name: Setup Rust and Android targets
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          source $HOME/.cargo/env
+          rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Build Release APK
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: expressgram-apk
+          path: '**/build/outputs/apk/**/release/*.apk'
+          retention-days: 7
