@@ -115,8 +115,8 @@ def getStringForConfig(String s) {
 
 def isWindows = String.valueOf(DefaultNativePlatform.currentOperatingSystem.toFamilyName() == OperatingSystemFamily.WINDOWS)
 android {
-    compileSdkVersion 36
-    buildToolsVersion '36.0.0'
+    compileSdkVersion 34
+    buildToolsVersion '34.0.0'
     ndkVersion "27.2.12479018"
 
 
