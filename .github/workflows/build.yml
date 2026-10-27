@@ -30,11 +30,18 @@ jobs:
           ndk-version: r27c
           link-to-sdk: true
 
-      # ⬇️ НОВЫЙ ШАГ: Устанавливаем инструменты для компиляции C++ кода
       - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y meson ninja-build yasm nasm cmake build-essential pkg-config
+
+      # ⬇️ НОВЫЙ ШАГ: Установка Rust и Android-таргетов
+      - name: Setup Rust and Android targets
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          source $HOME/.cargo/env
+          rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
 
       - name: Build Release APK
         run: |
